@@ -72,6 +72,7 @@ public class EstateController {
     @RequestMapping("estate/selectUnit")
     public String selectUnit(@RequestBody UnitMessage[] unitMessages) {
         System.out.println("selectUnit--------");
+        //定义返回结果集
         List<FcUnit> allUnit = new ArrayList<>();
         for (UnitMessage unitMessage : unitMessages
         ) {
@@ -79,5 +80,32 @@ public class EstateController {
         }
         return JSONObject.toJSONString(new ReturnObject(allUnit));
     }
+
+    /**
+     * @单元信息维护
+     */
+    @RequestMapping("/estate/updateUnit")
+    public String updateUnit(FcUnit fcUnit) {
+        Integer result = estateService.updateUnit(fcUnit);
+        if (result == 1) {
+            return JSONObject.toJSONString(new ReturnObject("更新单元成功！"));
+        } else {
+            return JSONObject.toJSONString(new ReturnObject("更新单元失败！请重新设置单元信息"));
+        }
+    }
+    /**
+     * @维护房间信息
+     * */
+
+    @RequestMapping("/estate/insertCell")
+    public String insertCell(CellMessage[] cellMessages){
+        System.out.println("insertCell");
+        List<FcCell> fcCells = estateService.insertCell(cellMessages);
+        return  JSONObject.toJSONString(new ReturnObject(fcCells));
+    }
+
+    /**
+     * @完成
+     * */
 }
 
