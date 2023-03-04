@@ -93,19 +93,44 @@ public class EstateController {
             return JSONObject.toJSONString(new ReturnObject("更新单元失败！请重新设置单元信息"));
         }
     }
+
     /**
      * @维护房间信息
-     * */
+     */
 
     @RequestMapping("/estate/insertCell")
-    public String insertCell(CellMessage[] cellMessages){
+    public String insertCell(@RequestBody CellMessage[] cellMessages) {
         System.out.println("insertCell");
         List<FcCell> fcCells = estateService.insertCell(cellMessages);
-        return  JSONObject.toJSONString(new ReturnObject(fcCells));
+        return JSONObject.toJSONString(new ReturnObject(fcCells));
     }
 
     /**
      * @完成
+     */
+    @RequestMapping("estate/selectBuildingByEstate")
+    public String selectBuildingByEstate(String estateCode) {
+        System.out.println("estateCode: " + estateCode);
+        List<FcBuilding> fcBuildings = estateService.selectBuildingByEstate(estateCode);
+        System.out.println("fcBuildings: "+fcBuildings);
+        return JSONObject.toJSONString(new ReturnObject(fcBuildings));
+    }
+    @RequestMapping("estate/selectUnitByBuildingCode")
+    public String selectUnitByBuildingCode(String buildingCode){
+        System.out.println("buildingCode-----");
+        List<FcUnit> fcUnits = estateService.selectUnitByBuildingCode(buildingCode);
+        System.out.println("size: "+fcUnits.size());
+        return JSONObject.toJSONString(new ReturnObject(fcUnits));
+    }
+    /**
+     * @批量增加楼宇
+     *
      * */
+    @RequestMapping("estate/selectEstate")
+    public String selectEstate(String company){
+        List<FcEstate> companies = estateService.selectEstate(company);
+        System.out.println("selectEstate: "+companies+"----");
+        return JSONObject.toJSONString(new ReturnObject(companies));
+    }
 }
 

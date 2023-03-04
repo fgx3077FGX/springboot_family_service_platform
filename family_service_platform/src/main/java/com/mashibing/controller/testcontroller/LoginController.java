@@ -61,7 +61,7 @@ public class LoginController {
         TblUserRecord tblUserRecord = (TblUserRecord) session.getAttribute("userRecord");
 
         //获取权限管理模块信息
-        //通过“-”来拼接获取到的模块数据信息
+        //获取到的模块数据信息（分隔符從零開始遇到“-”分割返回）
         String[] split = tblUserRecord.getTblRole().getRolePrivileges().split("-");
         Permissions permissions = new Permissions();
         //向权限集合对象中添加具体的权限

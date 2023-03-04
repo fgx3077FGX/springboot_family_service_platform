@@ -20,6 +20,13 @@ public class UnitMessage {
         this.buildingCode = buildingCode;
     }
 
+    public Integer getUnitCount() {
+        return unitCount;
+    }
+
+    public void setUnitCount(Integer unitCount) {
+        this.unitCount = unitCount;
+    }
     @Override
     public String toString() {
         return "UnitMessage{" +
@@ -28,11 +35,4 @@ public class UnitMessage {
                 '}';
     }
 
-    public Integer getUnitCount() {
-        return unitCount;
-    }
-
-    public void setUnitCount(Integer unitCount) {
-        this.unitCount = unitCount;
-    }
 }
