@@ -16,8 +16,9 @@ public class EstateController {
 
     @Autowired
     private EstateService estateService;
-
-
+    /*
+    * 查询公司名称
+    * */
     @RequestMapping("/estate/selectCompany")
     public String selectCompany() {
         System.out.println("selectCompany-----------");
@@ -28,6 +29,7 @@ public class EstateController {
 
     /**
      * @插入数据
+     * @turn 房产信息
      */
     @RequestMapping("/estate/insertEstate")
     public String insertEstate(FcEstate fcEstate) {
@@ -53,7 +55,9 @@ public class EstateController {
         List<FcBuilding> fcBuildings = estateService.selectBuilding(buildingNumber, estateCode);
         return JSONObject.toJSONString(new ReturnObject(fcBuildings));
     }
-
+/**
+ * @维护楼宇信息
+ * */
     @RequestMapping("/estate/updateBuilding")
     public String updateBuilding(FcBuilding fcBuilding) {
         Integer result = estateService.updateBuilding(fcBuilding);
@@ -82,7 +86,7 @@ public class EstateController {
     }
 
     /**
-     * @单元信息维护
+     * @维护单元信息
      */
     @RequestMapping("/estate/updateUnit")
     public String updateUnit(FcUnit fcUnit) {
@@ -106,7 +110,7 @@ public class EstateController {
     }
 
     /**
-     * @完成
+     * @
      */
     @RequestMapping("estate/selectBuildingByEstate")
     public String selectBuildingByEstate(String estateCode) {
