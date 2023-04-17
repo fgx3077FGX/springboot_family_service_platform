@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b1f7e98-ea15-4bcd-beed-b52d9d33b892" name="默认" comment="" />
+    <list default="true" id="4b1f7e98-ea15-4bcd-beed-b52d9d33b892" name="默认" comment="">
+      <change beforePath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/controller/testcontroller/EstateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/controller/testcontroller/EstateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/mapper/FcEstateMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/mapper/FcEstateMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/mapper/FcEstateMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/mapper/FcEstateMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/service/base/EstateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/family_service_platform/src/main/java/com/mashibing/service/base/EstateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/简历.docx" beforeDir="false" afterPath="$PROJECT_DIR$/简历.docx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +26,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -32,7 +39,14 @@
       <option name="presentableId" value="Default" />
       <updated>1677398862719</updated>
       <workItem from="1677398874015" duration="4000" />
+      <workItem from="1680943022556" duration="97000" />
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1680943113785">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1680943113785" />
   </component>
 </project>

@@ -3,7 +3,7 @@
 <mapper namespace="com.mashibing.mapper.FcEstateMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.mashibing.bean.FcEstate">
+    <resultMap id="EstateMap" type="com.mashibing.bean.FcEstate">
         <id column="id" property="id" />
         <result column="estate_code" property="estateCode" />
         <result column="estate_name" property="estateName" />
@@ -28,9 +28,9 @@
         <result column="company" property="company" />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, estate_code, estate_name, estate_addr, cover_area, build_area, green_area, road_area, building_number, building_leader, company_name, company_behalf, contact, contact_phone, contact_addr, car_space_delay_rate, car_space_over_day, estate_type, street_lamp_number, hfcNum, remark, company
-    </sql>
+    <select id="selectAllEstate" resultMap="EstateMap">
+        select e.*,c.company_full_name from fc_estate e
+        left join tbl_company c on e.company=e.id
+    </select>
 
 </mapper>

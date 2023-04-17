@@ -37,7 +37,7 @@ public class EstateService {
         QueryWrapper queryWrapper = new QueryWrapper();
         //查询后台数据库是否存在estate_code,如果不存在则允许插入
         queryWrapper.eq("estate_code", fcEstate.getEstateCode());
-        /*
+        /**
          * estate_code:数据库字段名
          * */
         FcEstate findResult = fcEstateMapper.selectOne(queryWrapper);
@@ -52,8 +52,9 @@ public class EstateService {
     }
 
     /**
-     * @return
-     * @param插入楼宇表单
+     * @param维护楼宇
+     * @return 此处应该完成的是楼宇的查询功能，但是现在数据表中没有任何楼宇的数据，因此在辨析的时候需要进行插入且返回插入的数据
+     *
      */
     public List<FcBuilding> selectBuilding(Integer buildingNumber, String estateCode) {
         //插入楼宇表单
@@ -62,22 +63,21 @@ public class EstateService {
             FcBuilding fcBuilding = new FcBuilding();
             fcBuilding.setBuildingCode(estateCode + "B" + (i + 1));
             fcBuilding.setBuildingName("第" + (i + 1) + "号楼");
-            fcBuilding.setBuildingCode(estateCode);
-            System.out.println("fcBuilding: " + fcBuilding);
+            //estateCode 设置唯一标识码
+            fcBuilding.setEstateCode(estateCode);
+            System.out.println("楼宇: " + fcBuilding);
             //插入操作
             fcBuildingMapper.insert(fcBuilding);
-            System.out.println("fcBuildingMapper: " + fcBuildingMapper);
             fcBuildingList.add(fcBuilding);
-
-
         }
         return fcBuildingList;
     }
 
-    /**
-     * @param
-     * @return 更新楼宇
-     */
+   /**
+   @param
+   @return
+    更新楼宇
+   */
     public Integer updateBuilding(FcBuilding fcBuilding) {
         int result = fcBuildingMapper.updateById(fcBuilding);
         return result;
@@ -90,7 +90,8 @@ public class EstateService {
         for (int i = 0; i < unitMessage.getUnitCount(); i++) {
             FcUnit fcUnit = new FcUnit();
             fcUnit.setBuildingCode(unitMessage.getBuildingCode());
-            fcUnit.setUnitCode(fcUnit.getBuildingCode() + "U" + (i + 1));
+            //设置唯一标识码 unitCode
+            fcUnit.setUnitCode(unitMessage.getBuildingCode()+ "U" + (i + 1));
             fcUnit.setUnitName("第" + (i + 1) + "单元");
             fcUnitMapper.insert(fcUnit);
             fcUnitList.add(fcUnit);
@@ -108,9 +109,20 @@ public class EstateService {
         return fcUnitList;
     }
 
+    /**
+     * @更新单元
+     */
     public Integer updateUnit(FcUnit fcUnit) {
         //维护单元信息
         Integer result = fcUnitMapper.updateById(fcUnit);
+        return result;
+    }
+
+    /**
+     * @更新房间号
+     */
+    public Integer updateCell(FcCell fcCell) {
+        Integer result = fcCellMapper.updateById(fcCell);
         return result;
     }
 
@@ -126,10 +138,10 @@ public class EstateService {
                 //房间号
                 for (int j = cellMessage.getStartCellId(); j <= cellMessage.getStopCellId(); j++) {
                     FcCell fcCell = new FcCell();
-                    fcCell.setUnitCode(cellMessage.getUnitCode());
-                    fcCell.setCellName(i + "0" + j);
-                    fcCell.setCellCode(cellMessage.getUnitCode() + "C" + i + j);
                     fcCell.setFloorNumber(i);
+                    fcCell.setUnitCode(cellMessage.getUnitCode());
+                    fcCell.setCellCode(cellMessage.getUnitCode() + (i + 1) + "C" + (j + 1));
+                    fcCell.setCellName((i + 1) + "0" + (j + 1));
                     fcCellMapper.insert(fcCell);
                     lists.add(fcCell);
                 }
@@ -137,6 +149,20 @@ public class EstateService {
 
         }
         return lists;
+
+    }
+
+    public List<FcCell> selectCell(String unitCode) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        List<FcCell> fcCells;
+        if(queryWrapper.equals("")){
+            queryWrapper.select("*");
+          fcCells=  fcCellMapper.selectList(queryWrapper);
+        }else {
+            queryWrapper.eq("unit_code",unitCode);
+         fcCells=   fcCellMapper.selectList(queryWrapper);
+        }
+        return fcCells;
     }
 
     public List<FcBuilding> selectBuildingByEstate(String estateCode) {
@@ -146,19 +172,48 @@ public class EstateService {
         List<FcBuilding> fcBuildings = fcBuildingMapper.selectList(queryWrapper);
         return fcBuildings;
     }
+    public List<FcBuilding> selectBuildingByEstateCode(String estateCode){
+        QueryWrapper <FcBuilding> queryWrapper=new QueryWrapper<>();
+       List <FcBuilding>  fcBuildings;
+        if(estateCode.equals("")){
+            queryWrapper.select("*");
+            fcBuildings = fcBuildingMapper.selectList(queryWrapper);
+        }else {
+            queryWrapper.eq("estateCode",estateCode);
+            fcBuildings= fcBuildingMapper.selectList(queryWrapper);
+        }
+        return  fcBuildings;
+    }
 
     public List<FcUnit> selectUnitByBuildingCode(String buildingCode) {
         QueryWrapper<FcUnit> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("building_code", buildingCode);
-        queryWrapper.select("unit_name", "unit_code");
-        List<FcUnit> fcUnits = fcUnitMapper.selectList(queryWrapper);
+        List<FcUnit> fcUnits;
+        if(queryWrapper.equals("")){
+            queryWrapper.select("*");
+        }else {
+          queryWrapper.eq("building_code",buildingCode);
+        }
+        fcUnits = fcUnitMapper.selectList(queryWrapper);
         return fcUnits;
     }
 
+    /**
+     * @房产批量查询
+     */
     public List<FcEstate> selectEstate(String company) {
         QueryWrapper<FcEstate> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("company", company);
         List<FcEstate> fcEstates = fcEstateMapper.selectList(queryWrapper);
         return fcEstates;
     }
+
+    /**
+     * @住宅维护
+     */
+    public List<FcEstate> selectAllEstate( ) {
+        List<FcEstate> fcEstates = fcEstateMapper.selectAllEstate();
+        System.out.println("住宅维护： "+fcEstates);
+        return  fcEstates;
+    }
+
 }

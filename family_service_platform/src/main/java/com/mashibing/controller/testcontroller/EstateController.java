@@ -16,9 +16,10 @@ public class EstateController {
 
     @Autowired
     private EstateService estateService;
-    /*
-    * 查询公司名称
-    * */
+
+    /**
+     * @查询公司名称
+     * */
     @RequestMapping("/estate/selectCompany")
     public String selectCompany() {
         System.out.println("selectCompany-----------");
@@ -28,9 +29,11 @@ public class EstateController {
     }
 
     /**
-     * @插入数据
-     * @turn 房产信息
-     */
+    @param fcEstate
+    @return
+    住宅信息
+    */
+
     @RequestMapping("/estate/insertEstate")
     public String insertEstate(FcEstate fcEstate) {
         int result = estateService.insertEstate(fcEstate);
@@ -46,7 +49,7 @@ public class EstateController {
     }
 
     /**
-     * @param
+     * @param维护楼宇
      * @return 此处应该完成的是楼宇的查询功能，但是现在数据表中没有任何楼宇的数据，因此在辨析的时候需要进行插入且返回插入的数据
      */
     @RequestMapping("/estate/selectBuilding")
@@ -55,9 +58,10 @@ public class EstateController {
         List<FcBuilding> fcBuildings = estateService.selectBuilding(buildingNumber, estateCode);
         return JSONObject.toJSONString(new ReturnObject(fcBuildings));
     }
-/**
- * @维护楼宇信息
- * */
+
+    /**
+     * @维护楼宇信息>更新楼宇信息
+     */
     @RequestMapping("/estate/updateBuilding")
     public String updateBuilding(FcBuilding fcBuilding) {
         Integer result = estateService.updateBuilding(fcBuilding);
@@ -73,6 +77,9 @@ public class EstateController {
 
     }
 
+    /**
+     * @维护单元信息
+     */
     @RequestMapping("estate/selectUnit")
     public String selectUnit(@RequestBody UnitMessage[] unitMessages) {
         System.out.println("selectUnit--------");
@@ -86,7 +93,7 @@ public class EstateController {
     }
 
     /**
-     * @维护单元信息
+     * @维护单元信息>更新单元信息
      */
     @RequestMapping("/estate/updateUnit")
     public String updateUnit(FcUnit fcUnit) {
@@ -108,33 +115,76 @@ public class EstateController {
         List<FcCell> fcCells = estateService.insertCell(cellMessages);
         return JSONObject.toJSONString(new ReturnObject(fcCells));
     }
+    @RequestMapping("estate/selectCell")
+    public String selectCell(String unitCode){
+        System.out.println("selectCell--------------");
+        List<FcCell> fcCells = estateService.selectCell(unitCode);
+        return  JSONObject.toJSONString(new ReturnObject(fcCells));
+    }
 
     /**
-     * @
+     * @楼宇房间信息查询
      */
-    @RequestMapping("estate/selectBuildingByEstate")
+    @RequestMapping("/estate/selectBuildingByEstate")
     public String selectBuildingByEstate(String estateCode) {
         System.out.println("estateCode: " + estateCode);
         List<FcBuilding> fcBuildings = estateService.selectBuildingByEstate(estateCode);
-        System.out.println("fcBuildings: "+fcBuildings);
+        System.out.println("fcBuildings: " + fcBuildings);
         return JSONObject.toJSONString(new ReturnObject(fcBuildings));
     }
-    @RequestMapping("estate/selectUnitByBuildingCode")
-    public String selectUnitByBuildingCode(String buildingCode){
+    @RequestMapping("/estate/selectBuildingByEstateCode")
+    public String selectBuildingByEstateCode(String estateCode) {
+        System.out.println("estateCode: " + estateCode);
+        List<FcBuilding> fcBuildings = estateService.selectBuildingByEstateCode(estateCode);
+        System.out.println("fcBuildings: " + fcBuildings);
+        return JSONObject.toJSONString(new ReturnObject(fcBuildings));
+    }
+/**
+ * @房间信息查询
+ * */
+    @RequestMapping("/estate/selectUnitByBuildingCode")
+    public String selectUnitByBuildingCode(String buildingCode) {
         System.out.println("buildingCode-----");
         List<FcUnit> fcUnits = estateService.selectUnitByBuildingCode(buildingCode);
-        System.out.println("size: "+fcUnits.size());
+        System.out.println("size: " + fcUnits.size());
         return JSONObject.toJSONString(new ReturnObject(fcUnits));
     }
+
     /**
      * @批量增加楼宇
-     *
-     * */
-    @RequestMapping("estate/selectEstate")
-    public String selectEstate(String company){
+     */
+    @RequestMapping("/estate/selectEstate")
+   public String selectEstate(String company) {
         List<FcEstate> companies = estateService.selectEstate(company);
-        System.out.println("selectEstate: "+companies+"----");
+        System.out.println("selectEstate: " + companies + "----");
         return JSONObject.toJSONString(new ReturnObject(companies));
+    }
+    /**
+     * @房间维护
+     * */
+
+    /**
+     * @房间信息更新（保存/取消）
+     */
+    @RequestMapping("estate/updateCell")
+    public String updateCell(FcCell fcCell) {
+        Integer result = estateService.updateCell(fcCell);
+        System.out.println("result: "+result);
+        if(result==1){
+            return JSONObject.toJSONString(new ReturnObject("房间号更新成功"));
+        }else{
+            return JSONObject.toJSONString(new ReturnObject("房间号更新失败"));
+        }
+
+    }
+    /**
+     * @住宅维护
+     * */
+    @RequestMapping("estate/selectAllEstate")
+    public String selectAllEstate(){
+        List<FcEstate> fcEstates = estateService.selectAllEstate();
+        System.out.println("fcEstates: "+fcEstates);
+        return  JSONObject.toJSONString(new ReturnObject(fcEstates));
     }
 }
 
